@@ -17,14 +17,11 @@ public class GhostController : MonoBehaviour
     Movement body;
 
 
-
     // Start is called before the first frame update
     void Start()
     {
         attached = false;
         Cursor.visible = false;
-
-        Debug.Log(ControlScheme.viableKeys.Count);
     }
 
     // Update is called once per frame
@@ -40,11 +37,13 @@ public class GhostController : MonoBehaviour
 
         this.transform.eulerAngles = new Vector3(xRotation, yRotation, 0.0f);
 
-        //fetch input
-        KeyCode[] keysDown;
-
-        if (attached) { 
-        
+        if (attached) {
+            //control body instead of ghost
+            foreach (KeyCode key in ControlScheme.viableKeys) {
+                if (Input.GetKey(key)) {
+                    body.Move(key);
+                }
+            }
         }
         else{
             float vertical = 0;

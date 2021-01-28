@@ -14,7 +14,6 @@ namespace ControlTools
         Interact,
         //add macguffins here
 
-
         None
     }
 }
@@ -30,17 +29,63 @@ public class Movement : MonoBehaviour
     Vector3 velocity = new Vector3(0,0,0);
     bool attached = false;
     public Transform direction;
+    float forward = 0;
+    float right = 0;
+
 
     // Start is called before the first frame update
     void Start()
     {
         body = this.GetComponent<Rigidbody>();
-        //init control map then fill them with keys
 
+        //init control map then randomly fill them with keys
+        controls = new Dictionary<KeyCode, Control>();
+
+        foreach (KeyCode key in ControlScheme.viableKeys)
+        {
+            float assignment = Random.Range(0.0f, 10.0f);
+            //Debug.Log(assignment);
+            //TODO: Maybe ensure each control type is included
+            if (assignment <= 1.2f)
+            {
+                controls.Add(key, Control.Forward);
+            }
+            else if (assignment <= 2.4f)
+            {
+                controls.Add(key, Control.Backward);
+            }
+            else if (assignment <= 3.6f)
+            {
+                controls.Add(key, Control.Left);
+            }
+            else if (assignment <= 4.8f)
+            {
+                controls.Add(key, Control.Right);
+            }
+            else if (assignment <= 6f)
+            {
+                controls.Add(key, Control.Interact);
+            }
+            else
+            {
+                controls.Add(key, Control.None);
+            }
+        }
+        /*
+        foreach (KeyValuePair<KeyCode, Control> control in controls)
+        {
+            Debug.Log(control.Key);
+            Debug.Log(control.Value);
+        }
+        */
     }
-
     void Update()
     {
+        //update physics
+        Vector3 moveHorizontal = transform.right * right;
+        Vector3 moveVertical = transform.forward * forward;
+        velocity = (moveHorizontal + moveVertical).normalized * speed;
+
         //apply physics
         if (velocity != Vector3.zero)
         {
@@ -48,6 +93,9 @@ public class Movement : MonoBehaviour
             //gravity and drag embedded in rigidbody
         }
 
+        //reset physics 
+        forward = 0;
+        right = 0;
     }
     //attach player ghost
     public void Attach(Transform dir) {
@@ -71,43 +119,30 @@ public class Movement : MonoBehaviour
 
 
     // call this function each FixedUpdate to determine movement
-    public void Move(KeyCode[] keys) {
-
-        float forward = 0;
-        float right = 0;
-
-        foreach(KeyCode key in keys) {
-            if (controls.ContainsKey(key))
+    public void Move(KeyCode key) {
+        if (controls.ContainsKey(key))
+        {
+            //check for movement
+            if (controls[key] == Control.Forward)
             {
-                //check for movement
-                if (controls[key] == Control.Forward)
-                {
-                    forward += 1;
-                }
-                if (controls[key] == Control.Backward)
-                {
-                    forward -= 1;
-                }
-                if (controls[key] == Control.Left)
-                {
-                    right -= 1;
-                }
-                if (controls[key] == Control.Right)
-                {
-                    right += 1;
-                }
+                forward += 1;
             }
-            else
+            if (controls[key] == Control.Backward)
             {
-                Debug.Log("Key is not set");
+                forward -= 1;
+            }
+            if (controls[key] == Control.Left)
+            {
+                right -= 1;
+            }
+            if (controls[key] == Control.Right)
+            {
+                right += 1;
             }
         }
-
-        //update physics
-        Vector3 moveHorizontal = transform.right * right;
-        Vector3 moveVertical = transform.forward * forward;
-        velocity = (moveHorizontal + moveVertical).normalized * speed;
-
-
+        else
+        {
+            Debug.Log("Key is not set");
+        }
     }
 }
