@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum Control { 
+public enum Control { 
     Forward,
     Backward,
     Left,
@@ -24,7 +24,7 @@ public class Movement : MonoBehaviour
     float speed = 1.0f;
     Vector3 velocity = new Vector3(0,0,0);
     bool attached = false;
-    Transform direction;
+    public Transform direction;
 
     // Start is called before the first frame update
     void Start()
@@ -44,16 +44,25 @@ public class Movement : MonoBehaviour
         }
 
     }
-
+    //attach player ghost
     public void Attach(Transform dir) {
         attached = true;
         direction = dir;
     }
+    //detatch player ghost
     public void Detatch() {
         attached = false;
         direction = null;
     }
 
+    //setup default controls
+    public void DefaultControls() {
+        controls[KeyCode.W] = Control.Forward;
+        controls[KeyCode.A] = Control.Left;
+        controls[KeyCode.S] = Control.Backward;
+        controls[KeyCode.D] = Control.Right;
+        controls[KeyCode.Mouse0] = Control.Interact;
+    }
 
 
     // call this function each FixedUpdate to determine movement
