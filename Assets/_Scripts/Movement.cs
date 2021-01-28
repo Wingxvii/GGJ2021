@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ControlTools;
 
-public enum Control { 
-    Forward,
-    Backward,
-    Left,
-    Right,
-    Interact,
-    //add macguffins here
+namespace ControlTools
+{
+    public enum Control
+    {
+        Forward,
+        Backward,
+        Left,
+        Right,
+        Interact,
+        //add macguffins here
 
 
-    None
+        None
+    }
 }
 
 public class Movement : MonoBehaviour

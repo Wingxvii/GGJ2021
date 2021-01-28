@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ControlTools;
 
 public class GhostController : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class GhostController : MonoBehaviour
     {
         attached = false;
         Cursor.visible = false;
+
+        Debug.Log(ControlScheme.viableKeys.Count);
     }
 
     // Update is called once per frame
