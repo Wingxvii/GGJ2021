@@ -15,7 +15,8 @@ public class GhostController : MonoBehaviour
     //posession
     bool attached = false;
     Movement body;
-    GameObject interactHit;
+    GameObject interactHitObject;
+    bool interactHit = false;
 
     //interaction
     float interactionDist = 5.0f;
@@ -45,19 +46,33 @@ public class GhostController : MonoBehaviour
 
         this.transform.eulerAngles = new Vector3(xRotation, yRotation, 0.0f);
 
-        if (attached) {
+        if (attached)
+        {
             //control body instead of ghost
-            foreach (KeyCode key in ControlScheme.viableKeys) {
-                if (Input.GetKey(key)) {
+            foreach (KeyCode key in ControlScheme.viableKeys)
+            {
+                if (Input.GetKey(key))
+                {
                     body.Move(key);
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.Mouse1))       //TEMP CODE FOR DISPOSSESSING
+            {
+                if (attached)
+                {
+                    DisPossess();
+                }
+            }
         }
-        else{
+        else
+        {
             float vertical = 0;
             float horizontal = 0;
 
-            if (Input.GetKey(KeyCode.W)) {
+            //get inputs
+            if (Input.GetKey(KeyCode.W))
+            {
                 vertical += 1;
             }
             if (Input.GetKey(KeyCode.A))
@@ -72,7 +87,22 @@ public class GhostController : MonoBehaviour
             {
                 horizontal += 1;
             }
-
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                if (interactHit)
+                {
+                    switch (interactHitObject.tag)
+                    {
+                        case "Body":
+                            // Attempt Posession
+                            Possess(interactHitObject);
+                            break;
+                        default:
+                            Debug.LogWarning("Not Acceptable Interaction");
+                            break;
+                    }
+                }
+            }
             //movement
             Vector3 dir = new Vector3(horizontal, 0, vertical);
             dir = transform.TransformDirection(dir);
@@ -82,7 +112,8 @@ public class GhostController : MonoBehaviour
             transform.position += dir * Time.deltaTime;
 
             //clamping
-            if (transform.position.y <= 1) {
+            if (transform.position.y <= 1)
+            {
                 transform.position = new Vector3(transform.position.x, 1.0f, transform.position.z);
             }
 
@@ -96,22 +127,57 @@ public class GhostController : MonoBehaviour
     }
 
     //updates interaction raycast
-    void InteractionSensor() {
+    void InteractionSensor()
+    {
         Ray raycast;
 
         raycast = new Ray(transform.position, transform.forward);
         RaycastHit hit;
         if (Physics.Raycast(raycast, out hit, interactionDist, interactableMask))
         {
-            interactHit = hit.transform.gameObject;
-
-            if (interactHit.tag == "Body") {
-                Debug.Log("Body Hit");
-            }
+            interactHitObject = hit.transform.gameObject;
+            interactHit = true;
+        }
+        else
+        {
+            interactHit = false;
         }
         //draw sensors
         Debug.DrawLine(raycast.origin, raycast.origin + (transform.forward * interactionDist), Color.red);
-
-
     }
+
+    public void Possess(GameObject target)
+    {
+        Debug.Log("Possessing");
+        this.transform.parent = target.transform;
+        attached = true;
+        body = target.GetComponent<Movement>();
+        body.Attach(this.transform);
+        StartCoroutine(LerpTo(1.0f, body.head));
+    }
+    public void DisPossess() {
+        Debug.Log("DisPossessing");
+        this.transform.parent = null;
+        attached = false;
+        body.Detatch();
+    }
+
+    IEnumerator LerpTo(float time, Transform target)
+    {
+        float elapsedTime = 0;
+        Vector3 currentPos = transform.position;
+
+        while (elapsedTime < time)
+        {
+            transform.position = Vector3.Lerp(currentPos, target.position, (elapsedTime / time));
+            elapsedTime += Time.deltaTime;
+
+            // Yield here
+            yield return null;
+        }
+        // Make sure we got there
+        transform.position = target.position;
+        yield return null;
+    }
+
 }

@@ -31,12 +31,13 @@ public class Movement : MonoBehaviour
     public Transform direction;
     float forward = 0;
     float right = 0;
-
+    public Transform head;
 
     // Start is called before the first frame update
     void Start()
     {
         body = this.GetComponent<Rigidbody>();
+        direction = this.transform;
 
         //init control map then randomly fill them with keys
         controls = new Dictionary<KeyCode, Control>();
@@ -46,23 +47,23 @@ public class Movement : MonoBehaviour
             float assignment = Random.Range(0.0f, 10.0f);
             //Debug.Log(assignment);
             //TODO: Maybe ensure each control type is included
-            if (assignment <= 1.2f)
+            if (assignment <= 1.0f)
             {
                 controls.Add(key, Control.Forward);
             }
-            else if (assignment <= 2.4f)
+            else if (assignment <= 2.0f)
             {
                 controls.Add(key, Control.Backward);
             }
-            else if (assignment <= 3.6f)
+            else if (assignment <= 3.0f)
             {
                 controls.Add(key, Control.Left);
             }
-            else if (assignment <= 4.8f)
+            else if (assignment <= 4.0f)
             {
                 controls.Add(key, Control.Right);
             }
-            else if (assignment <= 6f)
+            else if (assignment <= 5.0f)
             {
                 controls.Add(key, Control.Interact);
             }
@@ -82,8 +83,8 @@ public class Movement : MonoBehaviour
     void Update()
     {
         //update physics
-        Vector3 moveHorizontal = transform.right * right;
-        Vector3 moveVertical = transform.forward * forward;
+        Vector3 moveHorizontal = direction.right * right;
+        Vector3 moveVertical = direction.forward * forward;
         velocity = (moveHorizontal + moveVertical).normalized * speed;
 
         //apply physics
@@ -105,7 +106,7 @@ public class Movement : MonoBehaviour
     //detatch player ghost
     public void Detatch() {
         attached = false;
-        direction = null;
+        direction = this.transform;
     }
 
     //setup default controls
