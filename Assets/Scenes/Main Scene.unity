@@ -227,9 +227,9 @@ GameObject:
   - component: {fileID: 936304332}
   - component: {fileID: 936304336}
   - component: {fileID: 936304338}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -437,6 +437,9 @@ MonoBehaviour:
   horizontalSpeed: 1
   verticalSpeed: 1
   ghostSpeed: 5.33
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1828497397
 GameObject:
   m_ObjectHideFlags: 0

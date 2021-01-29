@@ -15,13 +15,21 @@ public class GhostController : MonoBehaviour
     //posession
     bool attached = false;
     Movement body;
+    GameObject interactHit;
 
+    //interaction
+    float interactionDist = 5.0f;
+    public LayerMask interactableMask;
 
     // Start is called before the first frame update
     void Start()
     {
         attached = false;
         Cursor.visible = false;
+
+        //add interactable items
+        interactableMask = LayerMask.GetMask("Body");
+
     }
 
     // Update is called once per frame
@@ -72,6 +80,38 @@ public class GhostController : MonoBehaviour
             dir *= ghostSpeed;
 
             transform.position += dir * Time.deltaTime;
+
+            //clamping
+            if (transform.position.y <= 1) {
+                transform.position = new Vector3(transform.position.x, 1.0f, transform.position.z);
+            }
+
         }
+    }
+
+    private void FixedUpdate()
+    {
+        //update sensor
+        InteractionSensor();
+    }
+
+    //updates interaction raycast
+    void InteractionSensor() {
+        Ray raycast;
+
+        raycast = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(raycast, out hit, interactionDist, interactableMask))
+        {
+            interactHit = hit.transform.gameObject;
+
+            if (interactHit.tag == "Body") {
+                Debug.Log("Body Hit");
+            }
+        }
+        //draw sensors
+        Debug.DrawLine(raycast.origin, raycast.origin + (transform.forward * interactionDist), Color.red);
+
+
     }
 }
