@@ -1,0 +1,162 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using ControlTools;
+
+namespace ControlTools
+{
+    public enum Control
+    {
+        Forward,
+        Backward,
+        Left,
+        Right,
+        Interact,
+        //add macguffins here
+
+        None
+    }
+}
+
+public class Body : MonoBehaviour
+{
+    //control mapping
+    Dictionary<KeyCode, Control> controls;
+
+    //movement physics
+    Rigidbody body;
+    float speed = 1.0f;
+    Vector3 velocity = new Vector3(0,0,0);
+    bool attached = false;
+    public Transform direction;
+    float forward = 0;
+    float right = 0;
+    public Transform head;
+
+    //credentials
+    public List<int> keys = new List<int>();  //use editor to add key for each body
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        body = this.GetComponent<Rigidbody>();
+        direction = this.transform;
+
+        //init control map then randomly fill them with keys
+        controls = new Dictionary<KeyCode, Control>();
+
+        foreach (KeyCode key in ControlScheme.viableKeys)
+        {
+            float assignment = Random.Range(0.0f, 10.0f);
+            //Debug.Log(assignment);
+            //TODO: Maybe ensure each control type is included
+            if (assignment <= 1.0f)
+            {
+                controls.Add(key, Control.Forward);
+            }
+            else if (assignment <= 2.0f)
+            {
+                controls.Add(key, Control.Backward);
+            }
+            else if (assignment <= 3.0f)
+            {
+                controls.Add(key, Control.Left);
+            }
+            else if (assignment <= 4.0f)
+            {
+                controls.Add(key, Control.Right);
+            }
+            else if (assignment <= 5.0f)
+            {
+                controls.Add(key, Control.Interact);
+            }
+            else
+            {
+                controls.Add(key, Control.None);
+            }
+        }
+        /*
+        foreach (KeyValuePair<KeyCode, Control> control in controls)
+        {
+            Debug.Log(control.Key);
+            Debug.Log(control.Value);
+        }
+        */
+    }
+    void Update()
+    {
+        //update physics
+        Vector3 moveHorizontal = direction.right * right;
+        Vector3 moveVertical = direction.forward * forward;
+        velocity = (moveHorizontal + moveVertical).normalized * speed;
+
+        //apply physics
+        if (velocity != Vector3.zero)
+        {
+            body.MovePosition(body.position + velocity * Time.fixedDeltaTime);
+            //gravity and drag embedded in rigidbody
+        }
+
+        //reset physics 
+        forward = 0;
+        right = 0;
+    }
+    //attach player ghost
+    public void Attach(Transform dir) {
+        attached = true;
+        direction = dir;
+    }
+    //detatch player ghost
+    public void Detatch() {
+        attached = false;
+        direction = this.transform;
+    }
+
+    //setup default controls
+    public void DefaultControls() {
+        controls[KeyCode.W] = Control.Forward;
+        controls[KeyCode.A] = Control.Left;
+        controls[KeyCode.S] = Control.Backward;
+        controls[KeyCode.D] = Control.Right;
+        controls[KeyCode.Mouse0] = Control.Interact;
+    }
+
+
+    // call this function each FixedUpdate to determine movement
+    public void Move(KeyCode key) {
+        if (controls.ContainsKey(key))
+        {
+            //check for movement
+            if (controls[key] == Control.Forward)
+            {
+                forward += 1;
+            }
+            if (controls[key] == Control.Backward)
+            {
+                forward -= 1;
+            }
+            if (controls[key] == Control.Left)
+            {
+                right -= 1;
+            }
+            if (controls[key] == Control.Right)
+            {
+                right += 1;
+            }
+        }
+        else
+        {
+            Debug.Log("Key is not set");
+        }
+    }
+
+    //call this function for checking interaction
+    public bool Interact(KeyCode key) { 
+        if(controls[key] == Control.Interact)
+        {
+            return true;
+        }
+        return false;
+    }
+}

@@ -14,7 +14,7 @@ public class GhostController : MonoBehaviour
 
     //posession
     bool attached = false;
-    Movement body;
+    Body body;
     GameObject interactHitObject;
     bool interactHit = false;
 
@@ -30,6 +30,8 @@ public class GhostController : MonoBehaviour
 
         //add interactable items
         interactableMask = LayerMask.GetMask("Body");
+        interactableMask += LayerMask.GetMask("Door");
+
 
     }
 
@@ -54,6 +56,30 @@ public class GhostController : MonoBehaviour
                 if (Input.GetKey(key))
                 {
                     body.Move(key);
+                }
+
+                //handle interact key press
+                if (interactHit && Input.GetKeyDown(key) && body.Interact(key)) {
+                    switch (interactHitObject.tag)
+                    {
+                        case "Body":
+                            Debug.Log("Cannot Possess when not in ghost form");
+                            break;
+                        case "Door":
+                            //check key and open door
+                            if (body.keys.Contains(interactHitObject.GetComponent<DoorAOpen>().keyHole))
+                            {
+                                interactHitObject.GetComponent<DoorAOpen>().Open();
+                                Debug.Log("You have opened a Door.");
+                            }
+                            else {
+                                Debug.Log("You do not have the required key to open this door.");
+                            }
+                            break;
+                        default:
+                            Debug.LogWarning("Not Acceptable Interaction");
+                            break;
+                    }
                 }
             }
 
@@ -97,6 +123,9 @@ public class GhostController : MonoBehaviour
                             // Attempt Posession
                             Possess(interactHitObject);
                             break;
+                        case "Door":
+                            Debug.Log("Cannot Open Doors without Body");
+                            break;
                         default:
                             Debug.LogWarning("Not Acceptable Interaction");
                             break;
@@ -137,6 +166,7 @@ public class GhostController : MonoBehaviour
         {
             interactHitObject = hit.transform.gameObject;
             interactHit = true;
+            //update interaction UI here
         }
         else
         {
@@ -151,7 +181,7 @@ public class GhostController : MonoBehaviour
         Debug.Log("Possessing");
         this.transform.parent = target.transform;
         attached = true;
-        body = target.GetComponent<Movement>();
+        body = target.GetComponent<Body>();
         body.Attach(this.transform);
         StartCoroutine(LerpTo(1.0f, body.head));
     }
