@@ -64,6 +64,7 @@ public class GhostController : MonoBehaviour
                     {
                         case "Body":
                             Debug.Log("Cannot Possess when not in ghost form");
+                            UIManager.Instance.PlayText("Cannot Possess when not in ghost form");
                             break;
                         case "Door":
                             //check key and open door
@@ -71,17 +72,21 @@ public class GhostController : MonoBehaviour
                             {
                                 interactHitObject.GetComponent<DoorAOpen>().Open();
                                 Debug.Log("You have opened a Door.");
+                                UIManager.Instance.PlayText("You have opened a Door.");
                             }
                             else {
                                 Debug.Log("You do not have the required key to open this door.");
+                                UIManager.Instance.PlayText("You do not have the required key to open this door.");
                             }
                             break;
                         case "Beer":
                             if (interactHitObject.GetComponent<Beer>().Chug()) 
                             {
                                 Debug.Log("Drinking Beer");
+                                UIManager.Instance.PlayText("Drinking Beer");
                                 if (body.Drink()) {
                                     Debug.Log("You passed out");
+                                    UIManager.Instance.PlayText("You passed out");
                                     DisPossess();
                                 }
                             }
@@ -135,9 +140,11 @@ public class GhostController : MonoBehaviour
                             Possess(interactHitObject);
                             break;
                         case "Door":
+                            UIManager.Instance.PlayText("Cannot Open Doors without Body");
                             Debug.Log("Cannot Open Doors without Body");
                             break;
                         case "Beer":
+                            UIManager.Instance.PlayText("Cannot Drink without Body");
                             Debug.Log("Cannot Drink without Body");
                             break;
                         default:

@@ -26,6 +26,9 @@ public class UIManager : MonoBehaviour
 
     public GameObject cursor;
     public GameObject[] beers;
+    public GameObject textBox;
+    public Text textBoxText;
+    public Animator textBoxAnim;
 
     private void Start()
     {
@@ -68,5 +71,11 @@ public class UIManager : MonoBehaviour
         foreach (GameObject beer in beers) {
             beer.SetActive(false);
         }
+    }
+
+    //call this for user notifications
+    public void PlayText(string text) {
+        textBoxText.text = text;
+        textBoxAnim.Play("fadeout");
     }
 }
