@@ -115,11 +115,13 @@ public class Body : MonoBehaviour
     public void Attach(Transform dir) {
         attached = true;
         direction = dir;
+        UIManager.Instance.UpdateBeer(tolerance);
     }
     //detatch player ghost
     public void Detatch() {
         attached = false;
         direction = this.transform;
+        UIManager.Instance.ResetBody();
     }
 
     //setup default controls
@@ -162,6 +164,7 @@ public class Body : MonoBehaviour
 
     public bool Drink() {
         tolerance -= 1;
+        UIManager.Instance.UpdateBeer(tolerance);
         if (tolerance == 0) {
             blackedOut = true;
             bodyAnim.SetTrigger("Blackout");

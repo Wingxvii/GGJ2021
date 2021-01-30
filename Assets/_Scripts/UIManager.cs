@@ -25,9 +25,48 @@ public class UIManager : MonoBehaviour
     #endregion
 
     public GameObject cursor;
+    public GameObject[] beers;
 
     private void Start()
     {
         cursor.SetActive(false);
+        RemoveBeers();
+    }
+
+    public void UpdateBeer(int tolerance) 
+    {
+        RemoveBeers();
+
+        if (tolerance > 0) 
+        {
+            beers[0].SetActive(true);
+        }
+        if (tolerance > 1)
+        {
+            beers[1].SetActive(true);
+        }
+        if (tolerance > 2)
+        {
+            beers[2].SetActive(true);
+        }
+        if (tolerance > 3)
+        {
+            beers[3].SetActive(true);
+        }
+        if (tolerance > 4)
+        {
+            beers[4].SetActive(true);
+        }
+    }
+
+    //call this when dispossessing
+    public void ResetBody() {
+        RemoveBeers();
+    }
+
+    void RemoveBeers() {
+        foreach (GameObject beer in beers) {
+            beer.SetActive(false);
+        }
     }
 }
