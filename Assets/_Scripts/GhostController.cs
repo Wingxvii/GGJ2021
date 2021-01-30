@@ -181,10 +181,12 @@ public class GhostController : MonoBehaviour
             interactHitObject = hit.transform.gameObject;
             interactHit = true;
             //update interaction UI here
+            UIManager.Instance.cursor.SetActive(true);
         }
         else
         {
             interactHit = false;
+            UIManager.Instance.cursor.SetActive(false);
         }
         //draw sensors
         Debug.DrawLine(raycast.origin, raycast.origin + (transform.forward * interactionDist), Color.red);
