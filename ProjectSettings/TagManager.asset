@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Body
   - Door
+  - Beer
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - 
   - Body
   - Door
-  - 
+  - Beer
   - 
   - 
   - 

@@ -31,7 +31,7 @@ public class GhostController : MonoBehaviour
         //add interactable items
         interactableMask = LayerMask.GetMask("Body");
         interactableMask += LayerMask.GetMask("Door");
-
+        interactableMask += LayerMask.GetMask("Beer");
 
     }
 
@@ -75,6 +75,17 @@ public class GhostController : MonoBehaviour
                             else {
                                 Debug.Log("You do not have the required key to open this door.");
                             }
+                            break;
+                        case "Beer":
+                            if (interactHitObject.GetComponent<Beer>().Chug()) 
+                            {
+                                Debug.Log("Drinking Beer");
+                                if (body.Drink()) {
+                                    Debug.Log("You passed out");
+                                    DisPossess();
+                                }
+                            }
+
                             break;
                         default:
                             Debug.LogWarning("Not Acceptable Interaction");
@@ -125,6 +136,9 @@ public class GhostController : MonoBehaviour
                             break;
                         case "Door":
                             Debug.Log("Cannot Open Doors without Body");
+                            break;
+                        case "Beer":
+                            Debug.Log("Cannot Drink without Body");
                             break;
                         default:
                             Debug.LogWarning("Not Acceptable Interaction");
@@ -178,12 +192,19 @@ public class GhostController : MonoBehaviour
 
     public void Possess(GameObject target)
     {
-        Debug.Log("Possessing");
-        this.transform.parent = target.transform;
-        attached = true;
         body = target.GetComponent<Body>();
-        body.Attach(this.transform);
-        StartCoroutine(LerpTo(1.0f, body.head));
+
+        if (!body.blackedOut)
+        {
+            Debug.Log("Possessing");
+            this.transform.parent = target.transform;
+            attached = true;
+            body.Attach(this.transform);
+            StartCoroutine(LerpTo(1.0f, body.head));
+        }
+        else {
+            Debug.Log("Cannot possess blacked out");
+        }
     }
     public void DisPossess() {
         Debug.Log("DisPossessing");

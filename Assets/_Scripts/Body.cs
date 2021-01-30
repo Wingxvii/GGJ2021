@@ -36,12 +36,21 @@ public class Body : MonoBehaviour
     //credentials
     public List<int> keys = new List<int>();  //use editor to add key for each body
 
+    //beer
+    public bool blackedOut = false;
+    public int tolerance = 3;
+
+
+    //animator
+    public Animator bodyAnim;
+
 
     // Start is called before the first frame update
     void Start()
     {
         body = this.GetComponent<Rigidbody>();
         direction = this.transform;
+        bodyAnim = this.GetComponent<Animator>();
 
         //init control map then randomly fill them with keys
         controls = new Dictionary<KeyCode, Control>();
@@ -149,6 +158,16 @@ public class Body : MonoBehaviour
         {
             Debug.Log("Key is not set");
         }
+    }
+
+    public bool Drink() {
+        tolerance -= 1;
+        if (tolerance == 0) {
+            blackedOut = true;
+            bodyAnim.SetTrigger("Blackout");
+            return true;
+        }
+        return false;
     }
 
     //call this function for checking interaction
