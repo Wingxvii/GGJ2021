@@ -76,6 +76,6 @@ public class UIManager : MonoBehaviour
     //call this for user notifications
     public void PlayText(string text) {
         textBoxText.text = text;
-        textBoxAnim.Play("fadeout");
+        textBoxAnim.Play("fadeout", -1, 0f);
     }
 }
