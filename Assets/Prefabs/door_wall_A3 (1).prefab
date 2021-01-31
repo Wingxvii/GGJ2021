@@ -121,9 +121,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keepOn: 0
-  outlineMode: 3
+  outlineMode: 0
   outlineColor: {r: 0, g: 0.6461563, b: 1, a: 1}
-  outlineWidth: 6
   precomputeOutline: 1
   bakeKeys:
   - {fileID: 4300002, guid: 26aec004d42c0a640bf94c71b19365ec, type: 3}

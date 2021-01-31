@@ -28,7 +28,7 @@ public class Body : MonoBehaviour
     public float speed = 1.0f;
     public float gravity = 1.0f;
     Vector3 velocity = new Vector3(0,0,0);
-    bool attached = false;
+    public bool attached = false;
     public Transform direction;
     float forward = 0;
     float right = 0;

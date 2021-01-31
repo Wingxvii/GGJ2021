@@ -5,6 +5,26 @@ using ControlTools;
 
 public class GhostController : MonoBehaviour
 {
+    //singleton stuff
+    #region SingletonCode
+    private static GhostController _instance;
+    public static GhostController Instance { get { return _instance; } }
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+
+    }
+    //single pattern ends here
+    #endregion
+
+
     //physics
     float xRotation = 0.0f;
     float yRotation = 0.0f;
@@ -13,7 +33,7 @@ public class GhostController : MonoBehaviour
     public float ghostSpeed = 1.0f;
 
     //posession
-    bool attached = false;
+    public bool attached = false;
     Body body;
     GameObject interactHitObject;
     bool interactHit = false;
@@ -191,7 +211,7 @@ public class GhostController : MonoBehaviour
 
             //turn on outline
             if (interactHitObject.TryGetComponent<Outline>(out outline)) {
-                outline.enabled = true;
+                outline.OutlineWidth = 6;
                 outline.keepOn = true;
             }
 

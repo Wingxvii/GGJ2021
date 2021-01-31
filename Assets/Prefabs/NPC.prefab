@@ -2454,7 +2454,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &3248372922850275874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2469,6 +2469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.1
   gravity: 0.1
+  attached: 0
   direction: {fileID: 0}
   keys: 
   blackedOut: 0
@@ -2490,7 +2491,6 @@ MonoBehaviour:
   keepOn: 0
   outlineMode: 0
   outlineColor: {r: 0.18230844, g: 1, b: 0, a: 1}
-  outlineWidth: 6
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

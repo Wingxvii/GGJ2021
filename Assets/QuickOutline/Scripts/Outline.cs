@@ -16,6 +16,7 @@ using UnityEngine;
 public class Outline : MonoBehaviour {
   private static HashSet<Mesh> registeredMeshes = new HashSet<Mesh>();
 
+
     public bool keepOn = false;
   public enum Mode {
     OutlineAll,
@@ -54,14 +55,13 @@ public class Outline : MonoBehaviour {
     public List<Vector3> data;
   }
 
-  [SerializeField]
+    [SerializeField]
   private Mode outlineMode;
 
   [SerializeField]
   private Color outlineColor = Color.white;
 
-  [SerializeField, Range(0f, 10f)]
-  private float outlineWidth = 2f;
+  private float outlineWidth = 6f;
 
   [Header("Optional")]
 
@@ -143,12 +143,26 @@ public class Outline : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (!keepOn)
+        if (this.tag == "Body")
         {
-            this.enabled = false;
+            if (GhostController.Instance.attached)
+            {
+                OutlineWidth = 0.0f;
+            }
+            else
+            {
+                OutlineWidth = 6.0f;
+            }
         }
+        else {
 
-        keepOn = false;
+            if (!keepOn)
+            {
+                OutlineWidth = 0.0f;
+            }
+
+            keepOn = false;
+        }
     }
 
     void OnDisable() {
