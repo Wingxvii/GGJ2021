@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6357110613265619188}
   - component: {fileID: 6429833455816840350}
   - component: {fileID: 6377920938868272506}
+  - component: {fileID: -8350097381602810883}
   m_Layer: 10
   m_Name: Jug_01 (1)
   m_TagString: Beer
@@ -113,3 +114,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.14224914, y: 0.16941042, z: 0.11496209}
   m_Center: {x: -0.013643518, y: 0.08470521, z: -0.0000000037252903}
+--- !u!114 &-8350097381602810883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6372356428944349172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keepOn: 0
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.95554936, b: 0, a: 1}
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
