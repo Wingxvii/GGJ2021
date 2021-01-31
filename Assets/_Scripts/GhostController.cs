@@ -44,6 +44,7 @@ public class GhostController : MonoBehaviour
 
     //postProcessing
     public HorizontalBlur horizontalBlur;
+    public Invert invert;
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +59,8 @@ public class GhostController : MonoBehaviour
 
         //reset BeerBlur if it's in effect
         ResetBeerBlur();
+        //set ghost mode cause we're ghost mode
+        SetGhostModeEffect();
 
     }
 
@@ -212,6 +215,14 @@ public class GhostController : MonoBehaviour
         horizontalBlur.ChangeBlurAmount(blur_percentage);
     }
 
+    void SetGhostModeEffect() {
+        invert.SetInvert();
+    }
+
+    void UnsetGhostModeEffect() {
+        invert.UnsetInvert();
+    }
+
     private void FixedUpdate()
     {
         //update sensor
@@ -261,6 +272,7 @@ public class GhostController : MonoBehaviour
             body.Attach(this.transform);
             StartCoroutine(LerpTo(1.0f, body.head));
             SetBeerBlur();
+            UnsetGhostModeEffect();
         }
         else {
             Debug.Log("Cannot possess blacked out");
@@ -272,6 +284,7 @@ public class GhostController : MonoBehaviour
         attached = false;
         body.Detatch();
         ResetBeerBlur();
+        SetGhostModeEffect();
     }
 
     IEnumerator LerpTo(float time, Transform target)
