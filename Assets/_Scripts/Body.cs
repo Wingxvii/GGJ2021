@@ -25,13 +25,13 @@ public class Body : MonoBehaviour
 
     //movement physics
     Rigidbody body;
-    float speed = 1.0f;
+    public float speed = 1.0f;
+    public float gravity = 1.0f;
     Vector3 velocity = new Vector3(0,0,0);
     bool attached = false;
     public Transform direction;
     float forward = 0;
     float right = 0;
-    public Transform head;
 
     //credentials
     public List<int> keys = new List<int>();  //use editor to add key for each body
@@ -43,6 +43,7 @@ public class Body : MonoBehaviour
 
     //animator
     public Animator bodyAnim;
+    public Transform head;
 
 
     // Start is called before the first frame update
@@ -93,23 +94,30 @@ public class Body : MonoBehaviour
         }
         */
     }
-    void Update()
+    void FixedUpdate()
     {
         //update physics
-        Vector3 moveHorizontal = direction.right * right;
-        Vector3 moveVertical = direction.forward * forward;
+        Vector3 moveHorizontal = new Vector3(direction.right.x * right, 0, direction.right.z * right);
+        Vector3 moveVertical = new Vector3(direction.forward.x * forward, 0, direction.forward.z * forward);
         velocity = (moveHorizontal + moveVertical).normalized * speed;
+        velocity -= new Vector3(0.0f, gravity, 0.0f);
 
         //apply physics
         if (velocity != Vector3.zero)
         {
-            body.MovePosition(body.position + velocity * Time.fixedDeltaTime);
-            //gravity and drag embedded in rigidbody
+            body.MovePosition(body.position + velocity);
         }
 
         //reset physics 
         forward = 0;
         right = 0;
+
+    }
+
+    private void LateUpdate()
+    {
+        //update model
+        this.transform.rotation = Quaternion.Euler(new Vector3(0.0f, direction.forward.y, 0.0f));
     }
     //attach player ghost
     public void Attach(Transform dir) {
