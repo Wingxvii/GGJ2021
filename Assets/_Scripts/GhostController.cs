@@ -47,6 +47,7 @@ public class GhostController : MonoBehaviour
 
     //postProcessing
     public HorizontalBlur horizontalBlur;
+    public GhostMode ghostMode;
     public Invert invert;
 
     // Start is called before the first frame update
@@ -217,11 +218,11 @@ public class GhostController : MonoBehaviour
     }
 
     void SetGhostModeEffect() {
-        invert.SetInvert();
+        ghostMode.SetGhostMode();
     }
 
     void UnsetGhostModeEffect() {
-        invert.UnsetInvert();
+        ghostMode.UnsetGhostMode();
     }
 
     private void FixedUpdate()

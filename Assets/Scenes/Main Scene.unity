@@ -8410,6 +8410,7 @@ GameObject:
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
+  - component: {fileID: 963194234}
   - component: {fileID: 963194232}
   - component: {fileID: 963194233}
   m_Layer: 0
@@ -8511,6 +8512,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   horizontalBlur: {fileID: 963194230}
+  ghostMode: {fileID: 963194234}
   invert: {fileID: 963194231}
 --- !u!114 &963194230
 MonoBehaviour:
@@ -8533,7 +8535,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9473bee460e14de43b16e131792e4e89, type: 3}
   m_Name: 
@@ -8648,6 +8650,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &963194234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a84e516a645c442b0cd66862f0a481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostModeMaterial: {fileID: 2100000, guid: 5c7fe7b710da9ee4eaee138ea274afeb, type: 2}
 --- !u!1 &1016910688
 GameObject:
   m_ObjectHideFlags: 0
