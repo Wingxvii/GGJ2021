@@ -138,14 +138,6 @@ public class GhostController : MonoBehaviour
                     }
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.Mouse1))       //TEMP CODE FOR DISPOSSESSING
-            {
-                if (attached)
-                {
-                    DisPossess();
-                }
-            }
         }
         else
         {
