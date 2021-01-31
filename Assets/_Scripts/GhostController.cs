@@ -43,7 +43,7 @@ public class GhostController : MonoBehaviour
     public LayerMask interactableMask;
 
     //postProcessing
-    public Postprocessing postprocessing;
+    public HorizontalBlur horizontalBlur;
 
     // Start is called before the first frame update
     void Start()
@@ -199,7 +199,7 @@ public class GhostController : MonoBehaviour
     }
 
     void ResetBeerBlur() {
-        postprocessing.ChangeBlurAmount(0);
+        horizontalBlur.ChangeBlurAmount(0);
     }
 
     void SetBeerBlur()
@@ -209,7 +209,7 @@ public class GhostController : MonoBehaviour
 
         Debug.Log(blur_percentage);
 
-        postprocessing.ChangeBlurAmount(blur_percentage);
+        horizontalBlur.ChangeBlurAmount(blur_percentage);
     }
 
     private void FixedUpdate()
