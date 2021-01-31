@@ -108,7 +108,7 @@ public class MirrorCameraScript : MonoBehaviour
         {
             dest.aspect = src.aspect;
         }
-		dest.renderingPath = src.renderingPath;
+		//dest.renderingPath = src.renderingPath;
     }
 
     internal void RenderMirror()
