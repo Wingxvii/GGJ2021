@@ -8043,6 +8043,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: MainCamera
@@ -8135,6 +8136,8 @@ MonoBehaviour:
   interactableMask:
     serializedVersion: 2
     m_Bits: 0
+  horizontalBlur: {fileID: 963194230}
+  invert: {fileID: 963194231}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8147,7 +8150,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea8c5402a01e0b48ac4713bb4ebcd00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  postprocessMaterial: {fileID: 2100000, guid: 2cda83628e4a3f64a982ab66f8859a48, type: 2}
+  horizontalBlurMaterial: {fileID: 2100000, guid: 2cda83628e4a3f64a982ab66f8859a48,
+    type: 2}
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9473bee460e14de43b16e131792e4e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invertMaterial: {fileID: 2100000, guid: e5f2c48d255bb8b41a90ebeae440cffa, type: 2}
 --- !u!1 &1016910688
 GameObject:
   m_ObjectHideFlags: 0
@@ -14658,6 +14675,7 @@ MonoBehaviour:
   direction: {fileID: 0}
   keys: 01000000
   blackedOut: 0
+  max_tolerance: 3
   tolerance: 3
   bodyAnim: {fileID: 1631472218}
   head: {fileID: 1638510700}
