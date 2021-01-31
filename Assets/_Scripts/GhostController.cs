@@ -187,6 +187,14 @@ public class GhostController : MonoBehaviour
         {
             interactHitObject = hit.transform.gameObject;
             interactHit = true;
+            Outline outline;
+
+            //turn on outline
+            if (interactHitObject.TryGetComponent<Outline>(out outline)) {
+                outline.enabled = true;
+                outline.keepOn = true;
+            }
+
             //update interaction UI here
             UIManager.Instance.cursor.SetActive(true);
         }

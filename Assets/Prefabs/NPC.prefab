@@ -2385,6 +2385,7 @@ GameObject:
   - component: {fileID: 3248372922857792405}
   - component: {fileID: 3248372922850275875}
   - component: {fileID: 3248372922850275874}
+  - component: {fileID: -4370129756434567129}
   m_Layer: 8
   m_Name: NPC
   m_TagString: Body
@@ -2474,6 +2475,25 @@ MonoBehaviour:
   tolerance: 3
   bodyAnim: {fileID: 3248372922857792405}
   head: {fileID: 3248372922849985233}
+--- !u!114 &-4370129756434567129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3248372922850275873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keepOn: 0
+  outlineMode: 0
+  outlineColor: {r: 0.18230844, g: 1, b: 0, a: 1}
+  outlineWidth: 6
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &3248372922850276357
 GameObject:
   m_ObjectHideFlags: 0
