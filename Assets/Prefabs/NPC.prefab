@@ -2473,6 +2473,7 @@ MonoBehaviour:
   direction: {fileID: 0}
   keys: 
   blackedOut: 0
+  max_tolerance: 3
   tolerance: 3
   bodyAnim: {fileID: 3248372922857792405}
   head: {fileID: 3248372922849985233}

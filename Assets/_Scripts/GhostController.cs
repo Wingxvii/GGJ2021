@@ -37,6 +37,9 @@ public class GhostController : MonoBehaviour
     Body body;
     GameObject interactHitObject;
     bool interactHit = false;
+    public LayerMask ghostMask;
+    public LayerMask normalMask;
+    Camera vision;
 
     //interaction
     float interactionDist = 5.0f;
@@ -51,11 +54,17 @@ public class GhostController : MonoBehaviour
     {
         attached = false;
         Cursor.visible = false;
+        vision = this.GetComponent<Camera>();
 
         //add interactable items
         interactableMask = LayerMask.GetMask("Body");
         interactableMask += LayerMask.GetMask("Door");
         interactableMask += LayerMask.GetMask("Beer");
+
+        //add vision masks
+        normalMask = vision.cullingMask;
+        ghostMask = LayerMask.GetMask("Body");
+        vision.cullingMask = ghostMask;
 
         //reset BeerBlur if it's in effect
         ResetBeerBlur();
@@ -266,20 +275,22 @@ public class GhostController : MonoBehaviour
 
         if (!body.blackedOut)
         {
-            Debug.Log("Possessing");
+            UIManager.Instance.PlayText("Possessing");
             this.transform.parent = target.transform;
             attached = true;
             body.Attach(this.transform);
             StartCoroutine(LerpTo(1.0f, body.head));
             SetBeerBlur();
             UnsetGhostModeEffect();
+            vision.cullingMask = normalMask;
         }
         else {
             Debug.Log("Cannot possess blacked out");
         }
     }
     public void DisPossess() {
-        Debug.Log("DisPossessing");
+        UIManager.Instance.PlayText("Dispossessing");
+        vision.cullingMask = ghostMask;
         this.transform.parent = null;
         attached = false;
         body.Detatch();

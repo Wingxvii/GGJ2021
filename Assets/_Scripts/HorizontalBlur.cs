@@ -7,7 +7,7 @@ public class HorizontalBlur : MonoBehaviour
     //material that's applied when doing postprocessing
     [SerializeField]
     public Material horizontalBlurMaterial;
-    float blurStrength = 0.5F;
+    float blurStrength = 0.1F;
 
     //method which is automatically called by unity after the camera is done rendering
     void OnRenderImage(RenderTexture source, RenderTexture destination) {
