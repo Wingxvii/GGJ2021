@@ -38,7 +38,9 @@ public class Body : MonoBehaviour
 
     //beer
     public bool blackedOut = false;
-    public int tolerance = 3;
+    public int max_tolerance = 3;
+    public int tolerance = 3; // this gets overwritten to max_tolerance at game start.
+    // in the event that we want different max_tolerances for each person.
 
 
     //animator
@@ -52,40 +54,9 @@ public class Body : MonoBehaviour
         body = this.GetComponent<Rigidbody>();
         direction = this.transform;
         bodyAnim = this.GetComponent<Animator>();
+        max_tolerance = tolerance;
 
-        //init control map then randomly fill them with keys
-        controls = new Dictionary<KeyCode, Control>();
-
-        foreach (KeyCode key in ControlScheme.viableKeys)
-        {
-            float assignment = Random.Range(0.0f, 10.0f);
-            //Debug.Log(assignment);
-            //TODO: Maybe ensure each control type is included
-            if (assignment <= 1.0f)
-            {
-                controls.Add(key, Control.Forward);
-            }
-            else if (assignment <= 2.0f)
-            {
-                controls.Add(key, Control.Backward);
-            }
-            else if (assignment <= 3.0f)
-            {
-                controls.Add(key, Control.Left);
-            }
-            else if (assignment <= 4.0f)
-            {
-                controls.Add(key, Control.Right);
-            }
-            else if (assignment <= 5.0f)
-            {
-                controls.Add(key, Control.Interact);
-            }
-            else
-            {
-                controls.Add(key, Control.None);
-            }
-        }
+        AssignRandomControls();
         /*
         foreach (KeyValuePair<KeyCode, Control> control in controls)
         {
@@ -94,6 +65,42 @@ public class Body : MonoBehaviour
         }
         */
     }
+
+    void AssignRandomControls()
+    {
+        //init control map then randomly fill them with keys
+        controls = new Dictionary<KeyCode, Control>();
+
+        foreach (KeyCode key in ControlScheme.viableKeys) {
+            float assignment = Random.Range(0.0f, 10.0f);
+            //Debug.Log(assignment);
+            //TODO: Maybe ensure each control type is included
+            // philly: we could iterate through each of the control
+            // before the foreach loop (i.e. assign direction keys + use)
+            // ensuring that those controls are at least in one key.
+            // then we continue with this random assignment
+            // but skip any keys that have already been assigned.
+            if (assignment <= 1.0f) {
+                controls.Add(key, Control.Forward);
+            }
+            else if (assignment <= 2.0f) {
+                controls.Add(key, Control.Backward);
+            }
+            else if (assignment <= 3.0f) {
+                controls.Add(key, Control.Left);
+            }
+            else if (assignment <= 4.0f) {
+                controls.Add(key, Control.Right);
+            }
+            else if (assignment <= 5.0f) {
+                controls.Add(key, Control.Interact);
+            }
+            else {
+                controls.Add(key, Control.None);
+            }
+        }
+    }
+
     void FixedUpdate()
     {
         //update physics
