@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6357110613265619188}
   - component: {fileID: 6429833455816840350}
   - component: {fileID: 6377920938868272506}
-  - component: {fileID: 6371123517729918586}
   m_Layer: 10
   m_Name: Jug_01 (1)
   m_TagString: Beer
@@ -114,17 +113,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.14224914, y: 0.16941042, z: 0.11496209}
   m_Center: {x: -0.013643518, y: 0.08470521, z: -0.0000000037252903}
---- !u!114 &6371123517729918586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6372356428944349172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f722662c48213f49972537640de9fc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  amount: 1
-  empty: 0
