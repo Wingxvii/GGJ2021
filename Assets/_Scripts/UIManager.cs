@@ -30,10 +30,13 @@ public class UIManager : MonoBehaviour
     public Text textBoxText;
     public Animator textBoxAnim;
 
+    public GameObject[] keysStack;
+
     private void Start()
     {
         cursor.SetActive(false);
         RemoveBeers();
+        RemoveKeys();
     }
 
     public void UpdateBeer(int tolerance) 
@@ -62,15 +65,32 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateKeys(int[] keys)
+    {
+        RemoveKeys();
+        foreach (int key in keys) {
+            keysStack[key-1].SetActive(true);
+        }
+    }
+
     //call this when dispossessing
     public void ResetBody() {
         RemoveBeers();
+        RemoveKeys();
     }
 
     void RemoveBeers() {
         foreach (GameObject beer in beers) {
             beer.SetActive(false);
         }
+    }
+
+    void RemoveKeys() {
+        foreach (GameObject key in keysStack)
+        {
+            key.SetActive(false);
+        }
+
     }
 
     //call this for user notifications

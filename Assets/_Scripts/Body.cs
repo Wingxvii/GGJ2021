@@ -131,6 +131,7 @@ public class Body : MonoBehaviour
         attached = true;
         direction = dir;
         UIManager.Instance.UpdateBeer(tolerance);
+        UIManager.Instance.UpdateKeys(keys.ToArray());
     }
     //detatch player ghost
     public void Detatch() {
