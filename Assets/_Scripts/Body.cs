@@ -177,6 +177,7 @@ public class Body : MonoBehaviour
         }
     }
 
+    // decrements tolerance, and returns True if we pass out.
     public bool Drink() {
         tolerance -= 1;
         UIManager.Instance.UpdateBeer(tolerance);

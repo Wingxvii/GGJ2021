@@ -42,6 +42,9 @@ public class GhostController : MonoBehaviour
     float interactionDist = 5.0f;
     public LayerMask interactableMask;
 
+    //postProcessing
+    public Postprocessing postprocessing;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +55,9 @@ public class GhostController : MonoBehaviour
         interactableMask = LayerMask.GetMask("Body");
         interactableMask += LayerMask.GetMask("Door");
         interactableMask += LayerMask.GetMask("Beer");
+
+        //reset BeerBlur if it's in effect
+        ResetBeerBlur();
 
     }
 
@@ -104,7 +110,9 @@ public class GhostController : MonoBehaviour
                             {
                                 Debug.Log("Drinking Beer");
                                 UIManager.Instance.PlayText("Drinking Beer");
-                                if (body.Drink()) {
+                                bool passed_out = body.Drink();
+                                SetBeerBlur();
+                                if (passed_out) {
                                     Debug.Log("You passed out");
                                     UIManager.Instance.PlayText("You passed out");
                                     DisPossess();
@@ -190,6 +198,20 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    void ResetBeerBlur() {
+        postprocessing.ChangeBlurAmount(0);
+    }
+
+    void SetBeerBlur()
+    {
+        //get beer percentage amount from body
+        float blur_percentage = (float) (body.max_tolerance - body.tolerance) / body.max_tolerance;
+
+        Debug.Log(blur_percentage);
+
+        postprocessing.ChangeBlurAmount(blur_percentage);
+    }
+
     private void FixedUpdate()
     {
         //update sensor
@@ -238,6 +260,7 @@ public class GhostController : MonoBehaviour
             attached = true;
             body.Attach(this.transform);
             StartCoroutine(LerpTo(1.0f, body.head));
+            SetBeerBlur();
         }
         else {
             Debug.Log("Cannot possess blacked out");
@@ -248,6 +271,7 @@ public class GhostController : MonoBehaviour
         this.transform.parent = null;
         attached = false;
         body.Detatch();
+        ResetBeerBlur();
     }
 
     IEnumerator LerpTo(float time, Transform target)
